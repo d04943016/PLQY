@@ -4,7 +4,7 @@ Method to calculate the photoluminescence quantum yield (PLQY) proposed by profe
 
 Ref. https://onlinelibrary.wiley.com/doi/10.1002/adma.19970090308 
 
-The core code is in PLQY.py and the calculation is based on the numpy and scipy.
+The core code is in PLQY.py. The calculation is based on the numpy and scipy, so please install numpy and scipy.
 
     pip install numpy scipy
 
