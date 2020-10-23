@@ -122,13 +122,9 @@ class MainWindow(QtWidgets.QMainWindow):
             return 
         
         # wavelength range
-        print('{0:>15s} | {1:>10s} {2:>10s} '.format('','LowerBound', 'UpperBound'))
-        print('='*39)
-        print('{0:>15s} | {1:>10.3f} {2:>10.3f} '.format('Excitation',exciting_lower_bnd, exciting_upper_bnd))
-        print('{0:>15s} | {1:>10.3f} {2:>10.3f} '.format('Emission'  ,emission_lower_bnd, emission_upper_bnd))
-        print('\n\n')
         exciting_range=(exciting_lower_bnd, exciting_upper_bnd)
         emission_range=(emission_lower_bnd, emission_upper_bnd)
+        PLQY.printBound(exciting_range=exciting_range, emission_range=emission_range )
 
         # calculate the data
         CF_pd = PLQY.read_CFfile( filepath='./data', filename='CF.txt' )

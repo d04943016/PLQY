@@ -74,6 +74,14 @@ def saveSummary(filepath, fname, A_array, PLQY_array):
     file.write( ' '.join( ['{0:>15s}'.format( 'Quantum Yield : ' )] + [ '{0:6.1f}%'.format(PLQY_array[ii]*100) for ii in range(data_size) ] ) + '\n' )
     file.write( '{0:>15s} {1:>6.1f}% {2:>15s} {3:>6.1f}% '.format( 'Ave. : ', np.mean(PLQY_array)*100, 'Std. : ', np.std(PLQY_array)*100) + '\n' )
     file.close()
+def printBound(exciting_range=(315, 335), emission_range=(400, 720)):
+    exciting_lower_bnd, exciting_upper_bnd = exciting_range
+    emission_lower_bnd, emission_upper_bnd = emission_range
+    print('{0:>15s} | {1:>10s} {2:>10s} '.format('','LowerBound', 'UpperBound'))
+    print('='*39)
+    print('{0:>15s} | {1:>10.3f} {2:>10.3f} '.format('Excitation',exciting_lower_bnd, exciting_upper_bnd))
+    print('{0:>15s} | {1:>10.3f} {2:>10.3f} '.format('Emission'  ,emission_lower_bnd, emission_upper_bnd))
+    print('\n\n')
 if __name__ == '__main__':
     # input
     data_size = 5

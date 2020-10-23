@@ -17,7 +17,7 @@ from tkinter import filedialog
 # windows
 window = tk.Tk()
 window.title('PLQY calculator')
-window.geometry('300x400')
+window.geometry('300x450')
 
 # global variable
 global _PathList, _A_array, _PLQY_array
@@ -46,12 +46,31 @@ datasize_text = tk.Label(window, text='Data Size').place(x=10, y=14)
 datasize_entry = tk.Entry(window, textvariable=datasize_var, bd=3 ).place(x=90, y=10)
 datasize_var.set('5')
 
-# execition wavelength
-# Data Size
-ex_wv_var = tk.StringVar()
-ex_wv_text = tk.Label(window, text='Execition Wavelength').place(x=10, y=54)
-ex_wv_entry = tk.Entry(window, textvariable=ex_wv_var, bd=3, width=13 ).place(x=150, y=50)
-ex_wv_var.set('325')
+# excitation wavelength
+ex_text = tk.Label(window, text='Excitation Wavelength').place(x=10, y=54)
+
+ex_lower_bnd_var = tk.StringVar()
+ex_lower_bnd_text = tk.Label(window, text='          Lower Bound').place(x=20, y=84)
+ex_lower_bnd_entry = tk.Entry(window, textvariable=ex_lower_bnd_var, bd=3, width=13 ).place(x=150, y=80)
+ex_lower_bnd_var.set('315')
+
+ex_upper_bnd_var = tk.StringVar()
+ex_upper_bnd_text = tk.Label(window, text='          Upper Bound').place(x=20, y=114)
+ex_upper_bnd_entry = tk.Entry(window, textvariable=ex_upper_bnd_var, bd=3, width=13 ).place(x=150, y=110)
+ex_upper_bnd_var.set('335')
+
+# emission wavelength
+em_text = tk.Label(window, text='Emission Wavelength').place(x=10, y=144)
+
+em_lower_bnd_var = tk.StringVar()
+em_lower_bnd_text = tk.Label(window, text='          Lower Bound').place(x=20, y=174)
+em_lower_bnd_entry = tk.Entry(window, textvariable=em_lower_bnd_var, bd=3, width=13 ).place(x=150, y=170)
+em_lower_bnd_var.set('400')
+
+em_upper_bnd_var = tk.StringVar()
+em_upper_bnd_text = tk.Label(window, text='          Upper Bound').place(x=20, y=204)
+em_upper_bnd_entry = tk.Entry(window, textvariable=em_upper_bnd_var, bd=3, width=13 ).place(x=150, y=200)
+em_upper_bnd_var.set('720')
 
 # 
 # Load Data
@@ -89,7 +108,7 @@ def load_command_callback():
         print('Directory for data set {0} : {1}'.format(ii+1, _PathList[ii].get()) )
     print('\n')
 
-Load_Button = tk.Button(window,text="Load Data",width=30,height=2, command=load_command_callback).place(x=10, y=140)
+Load_Button = tk.Button(window,text="Load Data",width=30,height=2, command=load_command_callback).place(x=10, y=240)
 
 
 # print file path
@@ -102,7 +121,7 @@ def print_file_path_callback():
     for ii in range( len(_PathList) ):
         print('Directory for data set {0} : {1}'.format(ii+1, _PathList[ii].get()) )
     print('\n')
-Print_Filepath_Button = tk.Button(window,text="Print File Path",width=30,height=2, command=print_file_path_callback).place(x=10, y=190)
+Print_Filepath_Button = tk.Button(window,text="Print File Path",width=30,height=2, command=print_file_path_callback).place(x=10, y=280)
 
 # calculate result
 def calculate_callback():
@@ -114,25 +133,41 @@ def calculate_callback():
         return 
 
     # check execitation wavelength
-    if IsFloat(ex_wv_var.get()):
-        exciting_center_wv = float( ex_wv_var.get() )
-        if exciting_center_wv<250:
+    ex_Lower_Bnd_str = ex_lower_bnd_var.get()
+    em_Lower_Bnd_str = ex_upper_bnd_var.get()
+    ex_Upper_Bnd_str = em_lower_bnd_var.get()
+    em_Upper_Bnd_str = em_upper_bnd_var.get()
+    if ( IsFloat(ex_Lower_Bnd_str) & IsFloat(em_Lower_Bnd_str) & IsFloat(ex_Upper_Bnd_str) & IsFloat(em_Upper_Bnd_str)):
+        exciting_lower_bnd = float( ex_Lower_Bnd_str )
+        emission_lower_bnd = float( em_Lower_Bnd_str )
+        exciting_upper_bnd = float( ex_Upper_Bnd_str )
+        emission_upper_bnd = float( em_Upper_Bnd_str )
+        if not ((exciting_upper_bnd>exciting_lower_bnd) & (emission_upper_bnd>emission_lower_bnd)):
+            print('The upper bound must be larger than the lower bound.\n')
+            return 
+        if exciting_lower_bnd<250:
             print('The excitation wavelength should be larger than/equal to 250 nm.\n')
             return 
     else:
         print('The excitation wavelength should be a float and larger than/equal to 250 nm.\n')
         return 
 
+    # wavelength range
+    exciting_range=(exciting_lower_bnd, exciting_upper_bnd)
+    emission_range=(emission_lower_bnd, emission_upper_bnd)
+    PLQY.printBound(exciting_range=exciting_range, emission_range=emission_range )
+
     # calculate the data
     filepath_list = [var.get() for var in _PathList ]
     CF_pd = PLQY.read_CFfile( filepath='./data', filename='CF.txt' )
     _A_array, _PLQY_array = np.zeros( (len(filepath_list),), dtype=np.float ), np.zeros( (len(filepath_list),), dtype=np.float )
     for ii in range(len(filepath_list)):
-        _A_array[ii], _PLQY_array[ii] = PLQY.PLQY_calculator( filepath=filepath_list[ii], exciting_center_wv=exciting_center_wv, CF_pd=CF_pd)
+        _A_array[ii], _PLQY_array[ii] = PLQY.PLQY_calculator( filepath=filepath_list[ii], CF_pd=CF_pd, exciting_range=exciting_range, emission_range=emission_range)
+    
     # print information
     PLQY.printSummary(_A_array, _PLQY_array)
     print('\n')
-Calculate_Data_Button = tk.Button(window,text="Calculate",width=30,height=2, command=calculate_callback).place(x=10, y=240)
+Calculate_Data_Button = tk.Button(window,text="Calculate",width=30,height=2, command=calculate_callback).place(x=10, y=320)
 
 # Save Button
 def save_callback():
@@ -152,7 +187,7 @@ def save_callback():
     PLQY.saveSummary(fpath, fname, _A_array, _PLQY_array)
     print('Now successfully save the data.\n')
 
-Save_Data_Button = tk.Button(window,text="Save",width=30,height=2, command=save_callback).place(x=10, y=290)
+Save_Data_Button = tk.Button(window,text="Save Summary",width=30,height=2, command=save_callback).place(x=10, y=360)
 
 # show
 window.mainloop()
