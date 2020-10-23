@@ -24,9 +24,7 @@ for tkinter GUI
 or
 
     python GUI_PyQt5_main.py
-for PyQt5 GUI
-
-or
+for PyQt5 GUI,
 
     streamlit run FUI_streamlit.py
 for streamlit GUI.
