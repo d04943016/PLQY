@@ -14,7 +14,7 @@ so if you would like to use the GUI, please install PyQt5 or streamlit, first.
 CF.txt in ./data is the callibration file for the instrument. 
 The first column is wavelength and the second column is the collibration factors.
 
-There should be columns in the measured data as shown in ./data/PLQY/1~6. 
+There should be two columns in the measured data as shown in ./data/PLQY/1~6. 
 Similarly, the first column is wavelength and the second column is the collibration factors.
 
 
