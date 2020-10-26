@@ -97,7 +97,7 @@ def load_command_callback():
             if not os.path.isfile( os.path.join(initialdir, fname) ):
                 print('File {0} is not in {1}.\n'.format(fname, initialdir) )
                 return 
-        tempt_dir = initialdir
+        tempt_dir = os.path.dirname(initialdir)
         tempt_dir_list[ii] = initialdir
 
     # Insert 
