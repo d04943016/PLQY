@@ -39,17 +39,23 @@ Similarly, the first column is wavelength and the second column is the collibrat
 
 Preview of GUI built on tkinter:
 
+    python GUI_tkinter.py
+    
 <p align="center">
 <img src="https://github.com/d04943016/PLQY/blob/main/figure/tkinter.png" width="400">
 </p>
 
 Preview of GUI built on PyQt5:
 
+    python GUI_PyQt5_main.py
+
 <p align="center">
 <img src="https://github.com/d04943016/PLQY/blob/main/figure/PyQt5.png" width="400">
 </p>
 
 Preview of GUI built on streamlit:
+
+    streamlit run GUI_streamlit.py
 
 <p align="center">
 <img src="https://github.com/d04943016/PLQY/blob/main/figure/streamlit.png" width="500">
