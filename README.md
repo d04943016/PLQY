@@ -37,6 +37,8 @@ There should be two columns in the measured data as shown in ./data/PLQY/1~6.
 Similarly, the first column is wavelength and the second column is the collibration factors.
 
 ### GUI
+When using the GUI, don't forget to see the information on the terminal.
+
 Preview of GUI built on tkinter:
 
     python GUI_tkinter.py
