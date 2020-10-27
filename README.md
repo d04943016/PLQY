@@ -29,14 +29,14 @@ for PyQt5 GUI,
     streamlit run FUI_streamlit.py
 for streamlit GUI.
 
-
+### Calibration File
 CF.txt in ./data is the callibration file for the instrument. (real intensity = measured intensity X calibration factor)
 The first column is wavelength and the second column is the collibration factors.
 
 There should be two columns in the measured data as shown in ./data/PLQY/1~6. 
 Similarly, the first column is wavelength and the second column is the collibration factors.
 
-
+### GUI
 Preview of GUI built on tkinter:
 
     python GUI_tkinter.py
