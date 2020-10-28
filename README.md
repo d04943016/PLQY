@@ -63,3 +63,4 @@ Preview of GUI built on streamlit:
 <img src="https://github.com/d04943016/PLQY/blob/main/figure/streamlit.png" width="500">
 </p>
 
+More details are in the usage.pdf.
